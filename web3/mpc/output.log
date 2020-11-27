@@ -1,0 +1,66 @@
+user: 0xa33d3ecc57Bd3F9C06Baf2CAbF5f3ecc7df8d6c8
+mpcAddress: 0xE84Ef61915ecf727D95FC1AEefeed51a6aaA62EC
+
+sendTransaction
+get SignNonce
+SignNonce:0
+get nonce
+nonce_mpc: 13
+{
+  nonce: '0xd',
+  gasPrice: '0x2540be400',
+  gasLimit: '0x186a0',
+  to: '0xe2bcaF8F9F56a6D4880C168FA8fa02b02bFD19e0',
+  value: '0x16345785d8a0000',
+  data: 'recordtest',
+  v: '0x3151b'
+}
+unsignedTxHash: 0xcb4739f536ae3a3e2f2c864066f22c0e7f70e32e68cf56c770282214503ac9e6
+{
+  nonce: '0x0',
+  to: '0x00000000000000000000000000000000000000dc',
+  data: '{"TxType":"SIGN","PubKey":"045ca26401515c6d6e08e055734e71d866110dbd13efa9487ebed43d4a97adfe1fe189b5b71d24af889993e754d3767cd2b2c9473ab4448bbe8b0309ad1838af09","MsgHash":["0xcb4739f536ae3a3e2f2c864066f22c0e7f70e32e68cf56c770282214503ac9e6"],"MsgContext":[""],"Keytype":"ECDSA","GroupId":"8d70867f3a73df81ce2eb99577c81739de695443b5bdd811ed1adaf3ac0799d118513b55aaf5aa20ae5349fe3a3d656b82db28286946b36678b094b044ddb5ab","ThresHold":"2/3","Mode":"1","TimeStamp":"1606467359058"}'
+}
+sign
+{
+  Data: {
+    result: '0xdf69bdcc65af44984c6a8cb03c56819ce8a737e25750661fe298e46431241c7b'
+  },
+  Error: '',
+  Status: 'Success',
+  Tip: ''
+}
+sign keyid: 0xdf69bdcc65af44984c6a8cb03c56819ce8a737e25750661fe298e46431241c7b
+waitting 10s to getSignStatus ...
+address: 0xE84Ef61915ecf727D95FC1AEefeed51a6aaA62EC, banlance: 1297249200000000000
+{
+  Data: {
+    result: '{"Status":"Success","Rsv":["90EDB4467AC60FCB36542245BAD74CD4253271DD5D1403D2721C12FD3A3F88233FF64AF571D2846B69F3A7DDF7166A25F019DE906D63860D203BE5B00FA5E94401"],"Tip":"","Error":"","AllReply":[{"Enode":"e1b512434ab8ec79a5e8ac767eb24ac5fbf284ac7b279aceacd28d82d9682b9876a586109406b6b53d90106fd5f3423696252a6fbb8a0cab84e98762eb5921cf","Status":"Pending","TimeStamp":"","Initiator":"0"},{"Enode":"3d8fe399233672e493e97c16caac66de8cf88c2fc687d2f9d5e66fd77bc2843bce4c37848b2e31e6a6d1e91b1dbbe3389452a094f10e60c87be66eb66b41afd9","Status":"Pending","TimeStamp":"","Initiator":"0"},{"Enode":"379b0c3ced2eb9f32a82e8a34a17e4467adb1b281c690b6c013f78008507b3be92e387610b7e42f3f0972bf3d8a7cae82983b13af84a609f83bb7d4a2048387f","Status":"Pending","TimeStamp":"","Initiator":"1"}],"TimeStamp":"1606467359058"}'
+  },
+  Error: '',
+  Status: 'Success',
+  Tip: ''
+}
+Rsv: 90EDB4467AC60FCB36542245BAD74CD4253271DD5D1403D2721C12FD3A3F88233FF64AF571D2846B69F3A7DDF7166A25F019DE906D63860D203BE5B00FA5E94401
+signedTx: 0xf87a0d8502540be400830186a094e2bcaf8f9f56a6d4880c168fa8fa02b02bfd19e088016345785d8a00008a7265636f72647465737483062a5aa090edb4467ac60fcb36542245bad74cd4253271dd5d1403d2721c12fd3a3f8823a03ff64af571d2846b69f3a7ddf7166a25f019de906d63860d203be5b00fa5e944
+SignedTxHash: 0x38f0e2c7b7d23f72f4791defef64bbfa3f30c9f583d00446e4068beda1a0f9cc
+send tx
+status: true
+txHash: 0x38f0e2c7b7d23f72f4791defef64bbfa3f30c9f583d00446e4068beda1a0f9cc
+getTransaction, txHash: 0x38f0e2c7b7d23f72f4791defef64bbfa3f30c9f583d00446e4068beda1a0f9cc
+{
+  blockHash: '0xc04392e1fcbffb7605b2d47d7bafa1f5ababd46ef1f89df195dcd932a8e82fa2',
+  blockNumber: 97219,
+  from: '0xE84Ef61915ecf727D95FC1AEefeed51a6aaA62EC',
+  gas: 100000,
+  gasPrice: '10000000000',
+  hash: '0x38f0e2c7b7d23f72f4791defef64bbfa3f30c9f583d00446e4068beda1a0f9cc',
+  input: '0x7265636f726474657374',
+  nonce: 13,
+  to: '0xe2bcaF8F9F56a6D4880C168FA8fa02b02bFD19e0',
+  transactionIndex: 0,
+  value: '100000000000000000',
+  v: '0x62a5a',
+  r: '0x90edb4467ac60fcb36542245bad74cd4253271dd5d1403d2721c12fd3a3f8823',
+  s: '0x3ff64af571d2846b69f3a7ddf7166a25f019de906d63860d203be5b00fa5e944'
+}
