@@ -28,7 +28,7 @@ var address_mpc= getAddressMPC(mpcPublicKey)
 getBalance(address_mpc)
 
 //2 sendTransaction
-var txHash = sendTransaction(address_user)
+var txHash = sendTransaction(mpcPublicKey, address_user, address_to, amount, custom_data, gas_limit, gas_price)
 
 //3 getTransaction
 //getTransaction(txHash)
@@ -96,7 +96,7 @@ function reqAccount(address_user) {
     })
 }
 
-function sendTransaction(address_user) {
+function sendTransaction(mpcPublicKey, address_user, address_to, amount, custom_data, gas_limit, gas_price) {
     console.log("sendTransaction")
     web3_mpc.mpc.getSignNonce(address_user).then(res => {
         console.log("get SignNonce")

@@ -1,7 +1,10 @@
 # Introduction
 MPC app
 
-
+# ready requires
+```
+npm install ethereumjs-tx@1.3 web3 sha256
+```
 # Setting Up
 ## Clone The Repository
 To get started, launch your terminal and download the latest version of the app.

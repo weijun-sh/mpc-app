@@ -35,7 +35,7 @@ console.log("user: "+address_user)
 var privateKey = new Buffer.from(account["privateKey"].substring(2), 'hex')
 
 //1 sendTransaction
-var txHash = sendTransaction(address_user)
+var txHash = sendTransaction(address_user, address_to, amount, custom_data, gas_limit, gas_price)
 
 //2 getTransaction
 //function getTransaction(txHash)
