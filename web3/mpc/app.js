@@ -1,15 +1,9 @@
 //npm install ethereumjs-tx@1.3.7
 
-//------ config -----------------------------------------------------
-var account_keystore = '../../testcases/test-account-passwd-123456--0xa33d3ecc57Bd3F9C06Baf2CAbF5f3ecc7df8d6c8' //TODO
-var account_password = '../../testcases/passwd' //TODO
-var mpcPublicKey = '045ca26401515c6d6e08e055734e71d866110dbd13efa9487ebed43d4a97adfe1fe189b5b71d24af889993e754d3767cd2b2c9473ab4448bbe8b0309ad1838af09' //TODO
-var address_to = '0xe2bcaF8F9F56a6D4880C168FA8fa02b02bFD19e0' //TODO
-var custom_data = 'recordtest' //TODO
-
+//------ var --------------------------------------------------------
 var gas_limit = '100000'
 var gas_price = '10' //gwei
-var amount = '0.1'
+var amount = '0.0'
 
 //------ module -----------------------------------------------------
 const ethTx = require('ethereumjs-tx'); //ethereumjs-tx@1.3.7
@@ -19,23 +13,23 @@ const fs = require('fs');
 const sha256 = require('sha256');
 const util = require('ethereumjs-util');
 const web3 = new Web3(url)
+require('./config.js');
 
-var address_user, privateKey = getPrivkey(account_keystore, account_password)
-
+//------ function ---------------------------------------------------
 //1 reqAccount
-//var mpcPublicKey = reqAccount(address_user)
-var address_mpc= getAddressMPC(mpcPublicKey)
-getBalance(address_mpc)
+//var reqMpcPublicKey = reqAccount(account_keystore, account_password)
+//var address_mpc= getAddressMPC(mpcPublicKey)
+//getBalance(address_mpc)
 
 //2 sendTransaction
-var txHash = sendTransaction(mpcPublicKey, address_user, address_to, amount, custom_data, gas_limit, gas_price)
+var txHash = sendTransaction(account_keystore, account_password, mpcPublicKey, address_to, amount, custom_data, gas_limit, gas_price)
 
 //3 getTransaction
 //getTransaction(txHash)
 
-
 //====== API ======================================================
-function reqAccount(address_user) {
+function reqAccount(account_keystore, account_password) {
+    var address_user, privateKey = getPrivkey(account_keystore, account_password)
     //req mpc address
     console.log("Req MPC account")
     web3_mpc.mpc.getReqAddrNonce(address_user).then(res => {
@@ -69,12 +63,15 @@ function reqAccount(address_user) {
                     var status = res.Status
                     console.log("keyid: "+keyID)
                     if (status === 'Success') {
-                        console.log("getReqAddrStatus")
+                        console.log("waitting 10s to getReqAddrStatus ...")
+                        //sleep 20 s
+                        sleep(20000)
                         web3_mpc.mpc.getReqAddrStatus(keyID).then(res => {
                             var pubKey = JSON.parse(res.Data.result).PubKey
                             var status = res.Status
                             if (status === 'Success') {
-                                console.log("pubkey: "+pubKey)
+                                mpcPublicKey = pubKey
+                                console.log("mpcPublicKey: "+mpcPublicKey)
                                 var address_mpc = util.pubToAddress('0x'+mpcPublicKey, true)
                                 address_mpc = util.toChecksumAddress(address_mpc.toString('hex'))
                                 console.log('mpcAddress: '+address_mpc)
@@ -96,7 +93,9 @@ function reqAccount(address_user) {
     })
 }
 
-function sendTransaction(mpcPublicKey, address_user, address_to, amount, custom_data, gas_limit, gas_price) {
+function sendTransaction(account_keystore, account_password, mpcPublicKey, address_to, amount, custom_data, gas_limit, gas_price) {
+    var address_user, privateKey = getPrivkey(account_keystore, account_password)
+    var address_mpc = getAddressMPC(mpcPublicKey)
     console.log("sendTransaction")
     web3_mpc.mpc.getSignNonce(address_user).then(res => {
         console.log("get SignNonce")
@@ -156,9 +155,9 @@ function sendTransaction(mpcPublicKey, address_user, address_to, amount, custom_
                     var status = res2.Status
                     console.log("sign keyid: "+keyID)
                     if (status === 'Success') {
-                        console.log("waitting 10s to getSignStatus ...")
-                        //sleep 10s
-                        sleep(10000)
+                        console.log("waitting 20s to getSignStatus ...")
+                        //sleep 20s
+                        sleep(20000)
                         web3_mpc.mpc.getSignStatus(keyID).then(res3 => {
                             console.log(res3)
                             var Rsv = JSON.parse(res3.Data.result).Rsv[0]
@@ -179,7 +178,7 @@ function sendTransaction(mpcPublicKey, address_user, address_to, amount, custom_
                                 var signedHash = web3.utils.sha3(serializedTx2)
                                 console.log("SignedTxHash:", signedHash)
     
-                                console.log("send tx")
+                                console.log("send tx ...")
                                 web3.eth.sendSignedTransaction('0x' + serializedTx2.toString('hex'))
                                     .on('receipt', (receipt) => {
                                         console.log("status: "+receipt.status)
@@ -216,6 +215,7 @@ function getTransaction(txHash) {
 }
 
 function getPrivkey(account_keystore, account_password) {
+    console.log("getPrivkey")
     var kdata = fs.readFileSync(account_keystore, (err, data) => {
         if (err) throw err;
     });
@@ -235,6 +235,7 @@ function getPrivkey(account_keystore, account_password) {
 }
 
 function getAddressMPC(mpcPublicKey) {
+    console.log("getAddressMPC")
     //recover from PublicKey
     var address_mpc = util.pubToAddress('0x'+mpcPublicKey, true)
     address_mpc = util.toChecksumAddress(address_mpc.toString('hex'))
