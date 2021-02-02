@@ -22,14 +22,16 @@ require('./config.js');
 //getBalance(address_mpc)
 
 //2 sendTransaction
-var txHash = sendTransaction(account_keystore, account_password, mpcPublicKey, address_to, amount, custom_data, gas_limit, gas_price)
+var txHash = sendTransaction(account_keystore, account_password, mpcPublicKey, address_to, custom_data)
 
 //3 getTransaction
 //getTransaction(txHash)
 
 //====== API ======================================================
 function reqAccount(account_keystore, account_password) {
-    var address_user, privateKey = getPrivkey(account_keystore, account_password)
+    var p = getPrivkey(account_keystore, account_password)
+    var address_user = p[0]
+    var privateKey = p[1]
     //req mpc address
     console.log("Req MPC account")
     web3_mpc.mpc.getReqAddrNonce(address_user).then(res => {
@@ -93,8 +95,10 @@ function reqAccount(account_keystore, account_password) {
     })
 }
 
-function sendTransaction(account_keystore, account_password, mpcPublicKey, address_to, amount, custom_data, gas_limit, gas_price) {
-    var address_user, privateKey = getPrivkey(account_keystore, account_password)
+function sendTransaction(account_keystore, account_password, mpcPublicKey, address_to, custom_data) {
+    var p = getPrivkey(account_keystore, account_password)
+    var address_user = p[0]
+    var privateKey = p[1]
     var address_mpc = getAddressMPC(mpcPublicKey)
     console.log("sendTransaction")
     web3_mpc.mpc.getSignNonce(address_user).then(res => {
@@ -229,9 +233,9 @@ function getPrivkey(account_keystore, account_password) {
     var account = web3.eth.accounts.decrypt(keystore, passwd)
     
     var address_user = account["address"]
-    console.log("user: "+address_user)
+    console.log("account: "+address_user)
     var privateKey = new Buffer.from(account["privateKey"].substring(2), 'hex')
-    return address_user, privateKey
+    return [address_user, privateKey]
 }
 
 function getAddressMPC(mpcPublicKey) {
@@ -239,7 +243,7 @@ function getAddressMPC(mpcPublicKey) {
     //recover from PublicKey
     var address_mpc = util.pubToAddress('0x'+mpcPublicKey, true)
     address_mpc = util.toChecksumAddress(address_mpc.toString('hex'))
-    console.log('mpcAddress: '+address_mpc)
+    console.log('address_mpc: '+address_mpc)
     console.log("") // \n\r
     return address_mpc
 }
